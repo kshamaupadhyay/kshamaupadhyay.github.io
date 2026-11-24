@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kshama Upadhyay | Data Analyst · Python · SQL</title>
+<meta name="description" content="Kshama Upadhyay, Data Analyst in Boston. Python and SQL pipelines, analytics, APIs and quantitative models, with every number reconciled to source.">
+<meta property="og:title" content="Kshama Upadhyay | Data Analyst · Python · SQL">
+<meta property="og:description" content="I write the code behind the numbers, and automate the work around them. Boston, MA.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kshamaupadhyay.github.io/">
+<meta name="theme-color" content="#0a0c10">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0c10'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='27' font-weight='700' fill='%235eead4' text-anchor='middle'%3EKU%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c10; --bg2:#0d1015; --surface:#11151c; --surface2:#151a23; --line:#1e2430; --line2:#2a3242;
+  --ink:#eceef3; --muted:#8a93a6; --dim:#5d6678;
+  --accent:#5eead4; --accent-ink:#06231f; --accent-soft:rgba(94,234,212,.10); --warm:#f5b971;
+  --display:"Space Grotesk",Inter,system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:var(--accent-ink)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono)}
+
+/* background glows + grid */
+.bgfx{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(600px 420px at 12% 8%,rgba(94,234,212,.07),transparent 70%),
+    radial-gradient(700px 500px at 92% 85%,rgba(245,185,113,.06),transparent 70%),
+    var(--bg)}
+.bgfx::after{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;opacity:.22;mask-image:radial-gradient(ellipse at 50% 20%,#000 20%,transparent 75%)}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:20;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+nav.scrolled{background:rgba(10,12,16,.82);backdrop-filter:blur(12px);border-color:var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:14px}
+.logo b{display:grid;place-items:center;width:32px;height:32px;border-radius:8px;background:var(--surface2);border:1px solid var(--line2);color:var(--accent);font-size:12px}
+.logo span{color:var(--muted)} .logo span i{font-style:normal;color:var(--ink)}
+nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-family:var(--mono);font-size:13px}
+nav ul a{color:var(--muted);transition:color .2s} nav ul a:hover{color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;padding:8px 16px;border-radius:999px;border:1px solid rgba(94,234,212,.35);color:var(--accent);background:var(--accent-soft);transition:background .2s}
+.pill:hover{background:rgba(94,234,212,.18)}
+
+/* hero */
+.hero{min-height:100vh;display:flex;align-items:center;padding:110px 0 70px}
+.hero-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:center}
+.kicker{font-family:var(--mono);font-size:13px;color:var(--muted);margin:0 0 22px;letter-spacing:.02em}
+.kicker em{font-style:normal;color:var(--accent)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(56px,9.5vw,124px);line-height:.92;letter-spacing:-.045em;margin:0 0 26px}
+.tag{font-family:var(--display);font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.25;letter-spacing:-.015em;margin:0 0 12px}
+.tag .a{color:var(--accent)}
+.lede{color:var(--muted);font-size:17px;max-width:520px;margin:0 0 34px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;padding:12px 20px;border-radius:10px;border:1px solid var(--line2);color:var(--ink);background:var(--surface);transition:border-color .2s,transform .2s}
+.btn:hover{border-color:var(--muted);transform:translateY(-1px)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:500}
+.btn.primary:hover{filter:brightness(1.06)}
+
+/* query panel */
+.panel{background:linear-gradient(180deg,var(--surface2),var(--surface));border:1px solid var(--line2);border-radius:16px;overflow:hidden;box-shadow:0 30px 80px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.02) inset}
+.panel-top{display:flex;align-items:center;gap:7px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.panel-top i{width:10px;height:10px;border-radius:50%;background:var(--line2)}
+.panel-top span{margin-left:10px;font-family:var(--mono);font-size:12px;color:var(--dim)}
+.panel pre{margin:0;padding:18px 18px 6px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--muted);white-space:pre-wrap}
+.kw{color:#c4a5ff}.fn{color:var(--warm)}.st{color:var(--accent)}
+.rows{padding:6px 18px 18px}
+.row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:11px 0;border-top:1px dashed var(--line);font-family:var(--mono);font-size:13px}
+.row b{font-family:var(--display);font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+.row span{color:var(--muted);align-self:center}
+.row-foot{font-family:var(--mono);font-size:11px;color:var(--dim);padding-top:10px;border-top:1px dashed var(--line)}
+.cursor{display:inline-block;width:8px;height:15px;background:var(--accent);vertical-align:-2px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* sections */
+section{padding:120px 0}
+.sec-label{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:13px;color:var(--dim);margin:0 0 14px}
+.sec-label em{font-style:normal;color:var(--accent)}
+.sec-label::after{content:"";flex:1;height:1px;background:var(--line);max-width:120px}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(34px,4.6vw,56px);line-height:1.02;letter-spacing:-.035em;margin:0 0 18px}
+h2 .soft{color:var(--dim)}
+.intro{color:var(--muted);max-width:620px;font-size:17px;margin:0 0 48px}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start}
+.about-grid h2{font-size:clamp(30px,3.1vw,42px)}
+.about-grid p{color:var(--muted);margin:0 0 16px;font-size:17px}
+.about-grid p strong{color:var(--ink);font-weight:500}
+.aside{font-size:14px!important;color:var(--dim)!important}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.about-side{display:grid;gap:14px}
+.photo{position:relative;margin:0;border-radius:18px;overflow:hidden;border:1px solid var(--line2);aspect-ratio:4/4.3;background:var(--surface)}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block;filter:saturate(1.02)}
+.photo figcaption{position:absolute;left:12px;right:12px;bottom:12px;display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:12px;background:rgba(10,12,16,.72);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);font-size:14px;font-weight:500}
+.photo figcaption .mono{font-size:12px;color:var(--accent);font-weight:400}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+.stat b{display:block;font-family:var(--display);font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1.05;margin-bottom:6px}
+.stat span{color:var(--muted);font-size:14px}
+
+/* experience timeline */
+.timeline{position:relative;display:grid;gap:22px}
+.timeline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:linear-gradient(var(--accent),var(--line) 40%)}
+.job{position:relative;padding-left:40px}
+.job::before{content:"";position:absolute;left:0;top:8px;width:15px;height:15px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.job-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;transition:border-color .2s}
+.job-card:hover{border-color:var(--line2)}
+.job-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;margin-bottom:4px}
+.job h3{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.015em;margin:0}
+.when{font-family:var(--mono);font-size:13px;color:var(--accent)}
+.org{color:var(--muted);font-size:15px;margin:0 0 16px}
+.job ul{margin:0 0 18px;padding-left:18px;color:var(--muted)}
+.job li{margin:6px 0} .job li strong{color:var(--ink);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font-family:var(--mono);font-size:12px;padding:5px 10px;border-radius:7px;background:var(--surface2);border:1px solid var(--line);color:var(--muted)}
+
+/* projects */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 30px}
+.filters button{font-family:var(--mono);font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s}
+.filters button:hover{color:var(--ink)}
+.filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.proj{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px;transition:border-color .25s,transform .25s,background .25s}
+.proj:hover{border-color:rgba(94,234,212,.35);transform:translateY(-3px);background:var(--surface2)}
+.proj.hide{display:none}
+.ptop{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.ptype{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.parrow{font-family:var(--mono);font-size:13px;color:var(--dim);transition:color .2s,transform .2s}
+.proj:hover .parrow{color:var(--accent);transform:translate(2px,-2px)}
+.proj h3{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.015em;line-height:1.2;margin:0 0 10px}
+.proj p{color:var(--muted);margin:0 0 18px;font-size:15px}
+.metric{display:flex;gap:12px;align-items:baseline;padding:14px 16px;border-radius:12px;background:var(--accent-soft);border:1px solid rgba(94,234,212,.16);margin:0 0 18px}
+.metric b{font-family:var(--display);font-size:24px;font-weight:600;color:var(--accent);letter-spacing:-.02em;white-space:nowrap}
+.metric span{font-size:14px;color:var(--ink);line-height:1.4}
+.proj .chips{margin-top:auto}
+.allrepos{display:inline-flex;margin-top:34px;font-family:var(--mono);font-size:14px;color:var(--accent);border-bottom:1px solid rgba(94,234,212,.35);padding-bottom:2px}
+
+/* toolkit */
+.tgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px}
+.tool h3{font-family:var(--display);font-size:20px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em}
+.tool p{color:var(--muted);font-size:15px;margin:0 0 16px}
+.tool .chips span{color:var(--ink)}
+
+/* education */
+.egrid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.edu{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px}
+.edu .when{display:block;margin-bottom:10px}
+.edu h3{font-family:var(--display);font-size:22px;font-weight:600;margin:0 0 4px;letter-spacing:-.015em}
+.edu .deg{color:var(--ink);margin:0 0 12px}
+.edu p{color:var(--muted);font-size:15px;margin:0}
+
+/* contact */
+.contact{text-align:center;padding:140px 0 120px}
+.contact h2{font-size:clamp(40px,6.4vw,84px);margin:0 auto 22px;max-width:900px}
+.contact .intro{margin:0 auto 38px}
+.contact .btns{justify-content:center}
+.email{font-family:var(--display);font-size:clamp(20px,2.6vw,28px);color:var(--ink);border-bottom:1px solid var(--line2);padding-bottom:4px;transition:border-color .2s,color .2s;display:inline-block;margin-bottom:34px}
+.email:hover{color:var(--accent);border-color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:28px 0;font-family:var(--mono);font-size:12px;color:var(--dim)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.cursor{animation:none}html{scroll-behavior:auto}}
+
+@media (max-width:900px){
+  nav ul{display:none}
+  .hero-grid,.about-grid{grid-template-columns:1fr;gap:44px}
+  .pgrid,.tgrid,.egrid{grid-template-columns:1fr}
+  section{padding:84px 0}
+  .hero{padding-top:100px}
+  .photo{max-width:440px;width:100%;justify-self:center}
+}
+@media (max-width:480px){
+  .wrap{padding:0 16px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{padding:18px}.stat b{font-size:26px}
+  .metric{flex-direction:column;gap:4px}
+  .job{padding-left:30px}.job-card{padding:22px}
+  .logo span{display:none}
+}
+</style>
+</head>
+<body>
+<div class="bgfx"></div>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><b>KU</b><span><i>kshama</i>.upadhyay</span></a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="pill" href="#contact">Get in touch</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="kicker rv">Boston, MA &nbsp;/&nbsp; <em>data analyst</em></p>
+      <h1 class="rv">Kshama<br>Upadhyay</h1>
+      <p class="tag rv">Data analyst working in <span class="a">Python &amp; SQL</span>.</p>
+      <p class="lede rv">I write the code behind the numbers, and automate the work around them. From Spark pipelines and APIs to forecasting and risk models.</p>
+      <div class="btns rv">
+        <a class="btn primary" href="#projects">View projects →</a>
+        <a class="btn" href="#contact">Get in touch</a>
+        <a class="btn" href="resume.pdf" target="_blank" rel="noopener">↓ Resume</a>
+      </div>
+    </div>
+    <div class="panel rv" aria-label="Impact summary">
+      <div class="panel-top"><i></i><i></i><i></i><span>impact.sql</span></div>
+<pre><span class="kw">SELECT</span> metric, result
+<span class="kw">FROM</span>   <span class="fn">kshama.work</span>
+<span class="kw">WHERE</span>  verified = <span class="st">TRUE</span>;</pre>
+      <div class="rows">
+        <div class="row"><span>month-end reporting</span><b>4+ hrs → 15 min</b></div>
+        <div class="row"><span>rows reconciled, 5+ systems</span><b>1M+</b></div>
+        <div class="row"><span>reporting accuracy</span><b>+30%</b></div>
+        <div class="row"><span>API throughput</span><b>1,576 req/s</b></div>
+        <div class="row-foot">4 rows returned · 0 discrepancies <span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="about">
+  <div class="wrap">
+    <p class="sec-label rv"><em>01</em> about</p>
+    <div class="about-grid">
+      <div>
+        <h2 class="rv">Code that moves data.<br><span class="soft">Numbers people can trust.</span></h2>
+        <p class="rv">I'm a data analyst with an <strong>MPS in Analytics (Applied Machine Intelligence) from Northeastern University</strong> and a B.Com in Business, Finance &amp; Economics. I'm equally at home in SQL, Python, and a spreadsheet model.</p>
+        <p class="rv">At a financial analytics firm, I learned that the most valuable analysis is the one people can trust. So I <strong>reconcile every figure to source</strong>, build automated checks into my pipelines, and automate the manual steps where errors usually creep in.</p>
+        <p class="rv">Since then I've built a cloud REST API, a Spark data pipeline, healthcare benchmarking on 160K+ records, and market-risk and forecasting models, all on GitHub with tests and documentation.</p>
+        <p class="rv aside">Outside work: certified Kathak dancer.</p>
+      </div>
+      <div class="about-side">
+      <figure class="photo rv"><img src="photo.jpg" alt="Kshama Upadhyay" width="960" height="1200" loading="lazy"><figcaption><span>Kshama Upadhyay</span><span class="mono">Boston, MA</span></figcaption></figure>
+      <div class="stats">
+        <div class="stat rv"><b>4h → 15m</b><span>Month-end reporting, automated end to end</span></div>
+        <div class="stat rv"><b>1M+</b><span>Rows reconciled across 5+ source systems</span></div>
+        <div class="stat rv"><b>+30%</b><span>Reporting accuracy from SQL validation rules</span></div>
+        <div class="stat rv"><b>18</b><span>Public projects with code, tests and READMEs</span></div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <p class="sec-label rv"><em>02</em> experience</p>
+    <h2 class="rv">Where I've shipped.</h2>
+    <p class="intro rv">Real stakeholders, real data, and results someone acted on.</p>
+    <div class="timeline">
+      <div class="job rv">
+        <div class="job-card">
+          <div class="job-head"><h3>Business &amp; Data Analyst</h3><span class="when">Jul 2023 – Jun 2024</span></div>
+          <p class="org">FinEdge Analytics Pvt. Ltd. · Financial analytics firm · Mumbai, India · Part-time</p>
+          <ul>
+            <li>Automated month-end reconciliation and recurring reporting with Excel VBA and Power Query, cutting <strong>4+ hours to under 15 minutes</strong> per cycle.</li>
+            <li>Built SQL validation rules and reconciliations across <strong>5+ source systems and 1M+ rows</strong>, catching errors before they reached leadership and raising reporting accuracy <strong>30%</strong>.</li>
+            <li>Built and owned <strong>15+ KPI dashboards</strong> in Power BI, Tableau, QuickSight and Excel for finance, operations and leadership.</li>
+            <li>Led root cause analysis on pricing and cost anomalies and presented fixes to leadership; several were approved and implemented.</li>
+          </ul>
+          <div class="chips"><span>SQL</span><span>Excel VBA</span><span>Power Query</span><span>Power BI</span><span>Tableau</span><span>QuickSight</span></div>
+        </div>
+      </div>
+      <div class="job rv">
+        <div class="job-card">
+          <div class="job-head"><h3>Analytics Consultant, Master's Capstone</h3><span class="when">2025 – 2026</span></div>
+          <p class="org">Set2Close (B2B RevOps consultancy) · External client project · Northeastern University</p>
+          <ul>
+            <li>With a 5-person team, analyzed the client's real CRM data across the full funnel: conversion, speed-to-stage and cohorts.</li>
+            <li>Showed the core problem was <strong>churn after the sale, not lead generation</strong>, and built a lead-scoring model and dashboards leadership used in planning.</li>
+            <li>Presented <strong>5 recommendations</strong> to the client's leadership, including clear stage-handoff rules and a customer success function.</li>
+          </ul>
+          <div class="chips"><span>SQL</span><span>Python</span><span>Power BI</span><span>Tableau</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <p class="sec-label rv"><em>03</em> projects</p>
+    <h2 class="rv">Selected work.</h2>
+    <p class="intro rv">Real and public datasets, tested code, and automated data checks in every project. Each one opens its full README on GitHub.</p>
+    <div class="filters rv" role="tablist">
+      <button class="on" data-f="all">All</button>
+      <button data-f="analytics">Analytics</button>
+      <button data-f="engineering">Engineering</button>
+      <button data-f="quant">Quant &amp; Finance</button>
+    </div>
+    <div class="pgrid">
+      <a class="proj rv" data-c="engineering" href="https://github.com/kshamaupadhyay/hospital-quality-api" target="_blank" rel="noopener">
+        <div class="ptop"><span class="ptype">engineering</span><span class="parrow">↗</span></div>
+        <h3>Hospital Quality API</h3>
+        <p>Cloud-native REST service for 5,419 hospitals, with data structures built from scratch: a trie for search, an O(1) LRU cache and heap-based top-k rankings. Fault tolerant with retries and a circuit breaker.</p>
+        <div class="metric"><b>1,576 req/s</b><span>load tested at 10 ms p95 latency, 26 tests at 98% coverage</span></div>
+        <div class="chips"><span>Python</span><span>FastAPI</span><span>AWS Lambda</span><span>DynamoDB</span><span>CI/CD</span></div>
+      </a>
+      <a class="proj rv" data-c="engineering" href="https://github.com/kshamaupadhyay/healthcare-data-integration-spark" target="_blank" rel="noopener">
+        <div class="ptop"><span class="ptype">engineering</span><span class="parrow">↗</span></div>
+        <h3>Healthcare Data Integration Pipeline</h3>
+        <p>Loads six public healthcare datasets (about 800K rows) into HDFS and maps five different source layouts into one standard schema with config-driven PySpark.</p>
+        <div class="metric"><b>22 checks</b><span>automated data quality checks that stop the run on critical failures</span></div>
+        <div class="chips"><span>PySpark</span><span>Spark SQL</span><span>Hive</span><span>HDFS</span></div>
+      </a>
+      <a class="proj rv" data-c="analytics" href="https://github.com/kshamaupadhyay/hospital-quality-benchmarking" target="_blank" rel="noopener">
+        <div class="ptop"><span class="ptype">analytics</span><span class="parrow">↗</span></div>
+        <h3>Hospital Quality Benchmarking</h3>
+        <p>Reproducible SQL and Python pipeline on CMS data (162,860 records) with a star schema and data dictionary, benchmarking 55 Massachusetts hospitals against 3,107 US peers.</p>
+        <div class="metric"><b>12 caught</b><span>inconsistent source labels flagged by 15 validation checks before analysis</span></div>
+        <div class="chips"><span>DuckDB SQL</span><span>Python</span><span>pandas</span></div>
+      </a>
+      <a class="proj rv" data-c="analytics" href="https://github.com/kshamaupadhyay/Pricing" target="_blank" rel="noopener">
+        <div class="ptop"><span class="ptype">analytics</span><span class="parrow">↗</span></div>
+        <h3>Pricing, Cost &amp; Vendor Margin Analysis</h3>
+        <p>Snowflake SQL and pandas pipeline that splits a gross profit change into volume/mix, price and cost effects, with like-for-like vendor unit costs.</p>
+        <div class="metric"><b>−2.3 pts</b><span>margin decline hidden by 13% revenue growth, 85% driven by 2 of 8 vendors</span></div>
+        <div class="chips"><span>Snowflake SQL</span><span>pandas</span><span>Power BI</span></div>
+      </a>
+      <a class="proj rv" data-c="analytics" href="https://github.com/kshamaupadhyay/airline-merger-analysis" target="_blank" rel="noopener">
+        <div class="ptop"><span class="ptype">analytics</span><span class="parrow">↗</span></div>
+        <h3>Airline Merger Fare Impact Study</h3>
+        <p>Built a 4,006-route, 24-quarter panel from U.S. DOT data and estimated a merger's effect with difference-in-differences and an event study.</p>
+        <div class="metric"><b>+4.6%</b><span>fare increase after integration, validated by 11 automated data checks</span></div>
+        <div class="chips"><span>Python</span><span>pandas</span><span>SciPy</span><span>Causal inference</span></div>
+      </a>
+      <a class="proj rv" data-c="quant" href="https://github.com/kshamaupadhyay/bond-portfolio-risk" target="_blank" rel="noopener">
+        <div class="ptop"><span class="ptype">quant</span><span class="parrow">↗</span></div>
+        <h3>Bond Portfolio Market Risk</h3>
+        <p>Python risk engine for a $100M bond portfolio priced off live Treasury curves and corporate spreads: DV01, CS01, VaR, Expected Shortfall, backtesting and 12 stress scenarios.</p>
+        <div class="metric"><b>$810K</b><span>1-day 99% VaR; backtest in the green zone (5 exceptions in 497 days)</span></div>
+        <div class="chips"><span>Python</span><span>FRED API</span><span>VaR</span><span>Backtesting</span></div>
+      </a>
+      <a class="proj rv" data-c="quant" href="https://github.com/kshamaupadhyay/fpa-budget-variance-forecast-model" target="_blank" rel="noopener">
+        <div class="ptop"><span class="ptype">quant</span><span class="parrow">↗</span></div>
+        <h3>Budget vs. Actual &amp; Rolling Forecast</h3>
+        <p>Live-formula model for a $48M-revenue distributor: department budget, monthly and YTD variance flags, rolling 9+3 forecast and P&amp;L to EBITDA.</p>
+        <div class="metric"><b>$380K</b><span>EBITDA shortfall traced to its drivers, every figure verified by an independent Python model</span></div>
+        <div class="chips"><span>Excel</span><span>Python</span><span>Forecasting</span></div>
+      </a>
+      <a class="proj rv" data-c="engineering" href="https://github.com/kshamaupadhyay/churn_microservice" target="_blank" rel="noopener">
+        <div class="ptop"><span class="ptype">engineering</span><span class="parrow">↗</span></div>
+        <h3>Churn Prediction Microservice</h3>
+        <p>Trained a machine learning model and deployed it behind a validated REST API that returns real-time churn predictions.</p>
+        <div class="metric"><b>0.85 AUC</b><span>ROC AUC, with request validation and API tests</span></div>
+        <div class="chips"><span>Python</span><span>FastAPI</span><span>scikit-learn</span><span>pytest</span></div>
+      </a>
+    </div>
+    <a class="allrepos rv" href="https://github.com/kshamaupadhyay?tab=repositories" target="_blank" rel="noopener">See all 18 repositories on GitHub ↗</a>
+  </div>
+</section>
+
+<section id="toolkit">
+  <div class="wrap">
+    <p class="sec-label rv"><em>04</em> toolkit</p>
+    <h2 class="rv">The stack, by the job it does.</h2>
+    <p class="intro rv">Tools I've used in shipped work and public projects, not just coursework.</p>
+    <div class="tgrid">
+      <div class="tool rv"><h3>Languages &amp; Analysis</h3><p>Querying, cleaning and modeling data, then testing whether the result holds.</p>
+        <div class="chips"><span>Python</span><span>SQL</span><span>pandas</span><span>NumPy</span><span>SciPy</span><span>scikit-learn</span><span>R</span><span>A/B testing</span><span>Causal inference</span></div></div>
+      <div class="tool rv"><h3>Data Engineering &amp; Cloud</h3><p>Pipelines and services that run reliably and check their own data.</p>
+        <div class="chips"><span>Snowflake</span><span>PostgreSQL</span><span>DuckDB</span><span>PySpark</span><span>Hive</span><span>AWS Lambda</span><span>DynamoDB</span><span>FastAPI</span><span>GitHub Actions</span><span>pytest</span></div></div>
+      <div class="tool rv"><h3>BI &amp; Reporting</h3><p>Dashboards and reports that leaders actually open.</p>
+        <div class="chips"><span>Power BI (DAX)</span><span>Tableau</span><span>QuickSight</span><span>Excel</span><span>Power Query</span><span>VBA</span></div></div>
+      <div class="tool rv"><h3>Quantitative Modeling</h3><p>Turning numbers into forecasts, scenarios and risk measures.</p>
+        <div class="chips"><span>Forecasting</span><span>Variance analysis</span><span>NPV / IRR</span><span>Scenario analysis</span><span>VaR</span><span>DV01</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <p class="sec-label rv"><em>05</em> education</p>
+    <h2 class="rv">Foundation.</h2>
+    <div class="egrid" style="margin-top:40px">
+      <div class="edu rv"><span class="when">Sep 2024 – Mar 2026 · Boston, MA</span><h3>Northeastern University</h3><p class="deg">MPS, Analytics · Applied Machine Intelligence</p><p>GPA 3.5 · Leaders Scholars Award (2024) · Database Design, AI for Decision Making, Probability &amp; Statistics, Data Visualization</p></div>
+      <div class="edu rv"><span class="when">Jul 2020 – Apr 2023 · Mumbai, India</span><h3>Mithibai College</h3><p class="deg">B.Com, Business, Finance &amp; Economics</p><p>The finance foundation behind my modeling work: accounting, corporate finance and economics.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <p class="sec-label rv" style="justify-content:center"><em>06</em> contact</p>
+    <h2 class="rv">Have data that needs answers?</h2>
+    <p class="intro rv">I'd love to hear about the problem you're working on. The fastest way to reach me is email or LinkedIn.</p>
+    <a class="email rv" href="mailto:kshamau16@gmail.com">kshamau16@gmail.com</a>
+    <div class="btns rv">
+      <a class="btn primary" href="mailto:kshamau16@gmail.com">Email me →</a>
+      <a class="btn" href="https://linkedin.com/in/kshama-upadhyay" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="https://github.com/kshamaupadhyay" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="btn" href="resume.pdf" target="_blank" rel="noopener">↓ Resume</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Kshama Upadhyay</span><span>Boston, MA · built with HTML, CSS &amp; a little JavaScript</span></div>
+</footer>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  function onScroll(){nav.classList.toggle('scrolled',window.scrollY>20)}
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  var els=document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(el){io.observe(el)});
+  } else { els.forEach(function(el){el.classList.add('in')}) }
+
+  var btns=document.querySelectorAll('.filters button'), cards=document.querySelectorAll('.proj');
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+    var f=b.getAttribute('data-f');
+    cards.forEach(function(c){c.classList.toggle('hide',f!=='all'&&c.getAttribute('data-c')!==f); c.classList.add('in')});
+  })});
+})();
+</script>
+</body>
+</html>
